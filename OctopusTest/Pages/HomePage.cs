@@ -12,7 +12,7 @@ namespace OctopusTest
     {
         public HomePage()
         {
-            PageFactory.InitElements(GeneralProperties.driver, this);
+            PageFactory.InitElements(Utilities.driver, this);
         }
 
         [FindsBy(How = How.XPath, Using = "/html/body/div[2]/div/div/div/div[1]/a/div/span")]

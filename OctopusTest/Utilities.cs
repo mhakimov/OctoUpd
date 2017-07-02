@@ -9,7 +9,7 @@ namespace OctopusTest
 {
 //enum SelectorType { Id, LinkText, Name, CssName, ClassName, XPath }
 
-    class GeneralProperties
+    class Utilities
     {
         public static IWebDriver driver { get; set; }
     }

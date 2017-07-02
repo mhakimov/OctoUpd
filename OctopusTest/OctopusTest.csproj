@@ -70,7 +70,7 @@
     <Compile Include="Methods\GeneralMethods.cs" />
     <Compile Include="OurPeopleFiltersTest.cs" />
     <Compile Include="Pages\AdviserPage.cs" />
-    <Compile Include="GeneralProperties.cs" />
+    <Compile Include="Utilities.cs" />
     <Compile Include="Methods\GetMethods.cs" />
     <Compile Include="Pages\HomePage.cs" />
     <Compile Include="Pages\OurPeoplePage.cs" />

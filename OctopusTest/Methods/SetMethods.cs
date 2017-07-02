@@ -52,7 +52,7 @@ namespace OctopusTest
 
         public static void SwitchWindows()
         {
-            GeneralProperties.driver.SwitchTo().Window(GeneralProperties.driver.WindowHandles.Last());
+            Utilities.driver.SwitchTo().Window(Utilities.driver.WindowHandles.Last());
         }
 
         /// <summary>
@@ -61,13 +61,13 @@ namespace OctopusTest
         /// <param name="element"></param>
         public static void MoveIntoElement(this IWebElement element)
         {
-            Actions builder = new Actions(GeneralProperties.driver);
+            Actions builder = new Actions(Utilities.driver);
             builder.MoveToElement(element).Perform();
         }
 
         public static void Scroll(int horizontal, int vertical)
         {
-            IJavaScriptExecutor jse = (IJavaScriptExecutor)GeneralProperties.driver;
+            IJavaScriptExecutor jse = (IJavaScriptExecutor)Utilities.driver;
             //soft code it
             jse.ExecuteScript($"scroll({horizontal},{vertical});");
         }
@@ -75,7 +75,7 @@ namespace OctopusTest
 
         public static void ScrollToElement(IWebElement element)
         {
-            Actions actions = new Actions(GeneralProperties.driver);
+            Actions actions = new Actions(Utilities.driver);
             actions.MoveToElement(element);
             actions.Perform();
         }

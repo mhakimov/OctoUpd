@@ -13,7 +13,7 @@ namespace OctopusTest
     {
         public AdviserPage()
         {
-            PageFactory.InitElements(GeneralProperties.driver, this);
+            PageFactory.InitElements(Utilities.driver, this);
         }
 
         [FindsBy(How = How.XPath, Using = ".//*[@id=\"myAdviser\"]/div/div/div[2]/a")]

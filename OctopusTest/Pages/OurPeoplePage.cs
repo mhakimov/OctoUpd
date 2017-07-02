@@ -12,12 +12,12 @@ namespace OctopusTest.Pages
     {
         public OurPeoplePage()
         {
-            PageFactory.InitElements(GeneralProperties.driver, this);
+            PageFactory.InitElements(Utilities.driver, this);
         }
         [FindsBy(How = How.XPath, Using = "/html/body/div[3]/div/div/div[1]/div[2]/div[1]/div/div/input")]
         public IWebElement SearchTxf { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "/html/body/div[3]/div/div/div[2]/div[2]/a[1]/div/h2")]
+        [FindsBy(How = How.XPath, Using = "//div[@class='search-container']//h2[text()='Anna Pollins']")]
         public IWebElement AnnaPollinsTx { get; set; }
 
         [FindsBy(How = How.XPath, Using = "/html/body/div[3]/div/div/div[2]/div[2]/a/div/h2")]
@@ -34,6 +34,28 @@ namespace OctopusTest.Pages
 
         [FindsBy(How = How.XPath, Using = "/html/body/div[3]/div/div/div[1]/div[2]/div[3]/div/div/button/span[1]")]
         public IWebElement SortByDdm { get; set; }
+
+        public IWebElement GetPerson(string person)
+        {
+            return Utilities.driver.FindElement(By.XPath($"//div[@class='search-container']//h2[text()='{person}']"));
+        }
+
+        public IReadOnlyList<IWebElement> GetAllEmployees()
+        {
+            return Utilities.driver.FindElements(By.XPath("//div[@class='content']/h2"));
+        }
+
+        public void SetValueForOrdering(string order)
+        {
+            SortByDdm.Click();
+            Utilities.driver.FindElement(By.XPath($"//div[@class='dropdown-menu open']/ul/li/a/span[text()='{order}']")).ClickIt();
+        }
+
+        public IWebElement GetTeamCheckBox(string teamName)
+        {
+            return Utilities.driver.FindElement(By.XPath($"//ul[@role='menu']/li/a/span[text()='{teamName}']/following-sibling::span[2]"));
+        }
+
 
 
         //                                   /html/body/div[3]/div/div/div[1]/div[2]/div[4]/div/div/div/ul/li[10]/a/span[2]
