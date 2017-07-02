@@ -1,13 +1,10 @@
-﻿using OctopusTest.Pages;
+﻿using System;
+using OctopusTest.Methods;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OpenQA.Selenium.Support.UI;
 
-namespace OctopusTest
+namespace OctopusTest.Pages
 {
     class AdviserPage
     {
@@ -27,12 +24,11 @@ namespace OctopusTest
 
         public OurPeoplePage GoToOurPeoplePage()
         {
+            new WebDriverWait(Utilities.driver, TimeSpan.FromMilliseconds(5000)).
+                            Until(ExpectedConditions.ElementToBeClickable(AboutUsDdm));
             AboutUsDdm.MoveIntoElement();
             OurPeopleBtn.ClickIt();
             return new OurPeoplePage();
-
-            //SetMethods.MoveIntoElement(AboutUsDdm);
-            // SetMethods.ClickIt(OurPeopleBtn);
         }
     }
 }

@@ -67,16 +67,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DataCollection.cs" />
-    <Compile Include="Methods\GeneralMethods.cs" />
     <Compile Include="OurPeopleFiltersTest.cs" />
     <Compile Include="Pages\AdviserPage.cs" />
     <Compile Include="Utilities.cs" />
-    <Compile Include="Methods\GetMethods.cs" />
     <Compile Include="Pages\HomePage.cs" />
     <Compile Include="Pages\OurPeoplePage.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Methods\SetMethods.cs" />
+    <Compile Include="Methods\SeleniumMethods.cs" />
     <Compile Include="Data\TestData.cs" />
   </ItemGroup>
   <ItemGroup>

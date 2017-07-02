@@ -1,42 +1,32 @@
 ﻿using NUnit.Framework;
 using OctopusTest.Data;
-using OctopusTest.Methods;
 using OctopusTest.Pages;
-using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Interactions;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using static System.Net.Mime.MediaTypeNames;
+using OctopusTest.Methods;
 
 namespace OctopusTest
 {
     class OurPeopleFiltersTest
     {
-        private string _tableLocation, _nameColumn;
+        private string _tableLocation, _nameColumn, _teamColumn, _corporateDevelopmentTeam;
         private OurPeoplePage _ourPeoplePage;
-     //   private List<IWebElement> _listOfTextfieldsToClear, _listOfElementsToUnclick;
         private List<DataCollection> _employeesDataCollection;
-
 
         [OneTimeSetUp]
         public void FixtureSetup()
         {
             _employeesDataCollection = new List<DataCollection>();
-            //_listOfTextfieldsToClear = new List<IWebElement>();
-            //_listOfElementsToUnclick = new List<IWebElement>();
             _nameColumn = "Name";
-            _tableLocation = AppDomain.CurrentDomain.BaseDirectory.Replace("OctopusTest\\bin\\Debug\\", "OctopusEmployees.xlsx");
+            _teamColumn = "Team";
+            _corporateDevelopmentTeam = "Corporate Development team";
+            _tableLocation = "C:\\services\\octopus2\\OctopusEmployees.xlsx";
+          //  _tableLocation = AppDomain.CurrentDomain.BaseDirectory.Replace("OctopusTest\\bin\\Debug\\", "OctopusEmployees.xlsx");
             TestData.PopulateInCollection(_tableLocation, _employeesDataCollection);
 
-            // ((IJavaScriptExecutor)driver).ExecuteScript("window.resizeTo(1024, 768);");
-          
         }
 
         [SetUp]
@@ -47,13 +37,12 @@ namespace OctopusTest
             Utilities.driver.Manage().Window.Maximize();
 
             HomePage homePage = new HomePage();
-            if (homePage.CookiesContinueBtn.Displayed) homePage.CookiesContinueBtn.ClickIt();
-            SetMethods.ScrollToElement(homePage.AdviserBtn);
-
+            homePage.CookiesContinueBtn.ClickIt();
+            SeleniumMethods.ScrollToElement(homePage.AdviserBtn);          
             AdviserPage adviserPage = homePage.GoToAdviserPage();
-            SetMethods.SwitchWindows();
-            // GeneralProperties.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            Thread.Sleep(6000);
+            SeleniumMethods.SwitchWindows();
+
+             Utilities.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
             adviserPage.ContinueBtn.ClickIt();
 
             _ourPeoplePage = adviserPage.GoToOurPeoplePage();
@@ -63,22 +52,8 @@ namespace OctopusTest
         public void Close()
         {
             Utilities.driver.Quit();
-            //foreach (var webelement in _listOfTextfieldsToClear)
-            //{
-            //    webelement.ClearUp();
-            //}
-
-            //foreach (var webelement in _listOfElementsToUnclick)
-            //{
-            //    webelement.ClickIt();
-            //}
         }
 
-        [OneTimeTearDown]
-        public void FinalClose()
-        {
-           
-        }
 
         [Test, Description("Verify that search textfield returns correct person"), Author("Marat")]
         public void FilterTest_01_SearchValid()
@@ -92,7 +67,7 @@ namespace OctopusTest
         [Test, Description("Verify that search textfield returns empty list when search value is incorrect"), Author("Marat")]
         public void FilterTest_02_SearchInvalid()
         {
-            var incorrectName = TestData.GetStringValueThatDoesNotExistInDb(_employeesDataCollection, _nameColumn);
+            var incorrectName = Utilities.GetStringValueThatDoesNotExistInDb(_employeesDataCollection, _nameColumn);
             _ourPeoplePage.SearchTxf.TypeInText(incorrectName);
             Assert.That(_ourPeoplePage.NoResultsFoundTx.Displayed, $"ERROR! web element {incorrectName} is displayed!");
         }
@@ -101,68 +76,72 @@ namespace OctopusTest
         [Test, Description("Tick a team and search for an employee from a different team"), Author("Marat")]
         public void FilterTest_03_TeamFiltering()
         {     
-         //   ((IJavaScriptExecutor)GeneralProperties.driver).ExecuteScript("window.scrollTo(0, document.body.scrollHeight - 350)");
-           // GeneralProperties.driver.FindElement(By.XPath("/html/body/div[3]/div/div/div[1]/div[2]/div[4]/div/div/div/ul/li[1]/a/span[2]")).Click();
-            Utilities.driver.FindElement(By.XPath("/html/body/div[3]/div/div/div[1]/div[2]/div[4]/div/div/div/ul/li[3]/a/span[2]")).Click();
+            _ourPeoplePage.GetTeamCheckBox(_corporateDevelopmentTeam).ClickIt();
 
-            //_ourPeoplePage.GetTeamCheckBox("Business development team").Click();
-
-            var indexOfEmployeeFromDifferentTeam = _employeesDataCollection.First(e => e.colName == "Team" && e.colValue != "Corporate Development team").rowNumber;
+            var indexOfEmployeeFromDifferentTeam = _employeesDataCollection.First(e => e.ColName == _teamColumn && e.ColValue != _corporateDevelopmentTeam).RowNumber;
             var nameOfEmployeeFromDifferentTeam = _employeesDataCollection.
-                First(e => e.colName == _nameColumn && e.rowNumber == indexOfEmployeeFromDifferentTeam).colValue;
+                First(e => e.ColName == _nameColumn && e.RowNumber == indexOfEmployeeFromDifferentTeam).ColValue;
 
             _ourPeoplePage.SearchTxf.TypeInText(nameOfEmployeeFromDifferentTeam);
             Assert.That(_ourPeoplePage.NoResultsFoundTx.Displayed, $"ERROR! web element for {nameOfEmployeeFromDifferentTeam} is displayed!");
         }
 
+
         [Test, Description("Verify that search textfield returns empty list when search value is incorrect"), Author("Marat")]
         public void FilterTest_04_SearchInvalid()
         {
-            //select dropdown
+            _ourPeoplePage.GetTeamCheckBox("Business development team").ClickIt();
+
             _ourPeoplePage.SetValueForOrdering("Z-A");
             List<string> employeesNames = new List<string>();
-            foreach (var person in _ourPeoplePage.GetAllEmployees())
+
+            foreach (var employee in _ourPeoplePage.GetAllEmployees())
             {
-                employeesNames.Add(person.Text);
+                employeesNames.Add(employee.Text);
+                //Regex myReg = new Regex("^[A-Za-z]*");
+                //employeeFirstNames.Add(myReg.Match(person.Text).Value);
             }
-            // proveritj chto otsorten
+
+            Assert.That(employeesNames, Is.Ordered.Descending);
         }
 
         [Test, Description("Verify that search textfield returns empty list when search value is incorrect"), Author("Marat")]
         public void FilterTest_05_SearchInvalid()
         {
+            _ourPeoplePage.GetTeamCheckBox(_corporateDevelopmentTeam).ClickIt();
+            List<string> employeesNames = new List<string>();
+            List<string> employeesNamesInDb = new List<string>();
 
+            foreach (var employee in _ourPeoplePage.GetAllEmployees())
+            {
+                employeesNames.Add(employee.Text);
+            }
+
+            List<int> employeeDbIndexes = new List<int>(from em in _employeesDataCollection
+                where (em.ColName == _teamColumn && em.ColValue == _corporateDevelopmentTeam)
+                select em.RowNumber);
+
+            foreach (var index in employeeDbIndexes)
+            {
+                employeesNamesInDb.Add(_employeesDataCollection.
+                    First(e=>e.ColName == _nameColumn && e.RowNumber == index).ColValue);
+            }
+
+            foreach (var employeeInDb in employeesNamesInDb)
+            {
+                Assert.That(employeesNames.Contains(employeeInDb));
+            }
+
+            Assert.That(employeesNamesInDb.Count, Is.EqualTo(employeesNames.Count));    
         }
 
-        [Test, Description("Verify that search textfield returns empty list when search value is incorrect"), Author("Marat")]
-        public void FilterTest_06_SearchInvalid()
-        {
+        //[Test, Description("Verify that search textfield returns empty list when search value is incorrect"), Author("Marat")]
+        //public void FilterTest_06_SearchInvalid()
+        //{
 
-        }
+        //}
 
-        [Test, Description("Verify that search textfield returns empty list when search value is incorrect"), Author("Marat")]
-        public void FilterTest_07_SearchInvalid()
-        {
-
-        }
-
-        [Test, Description("Verify that search textfield returns empty list when search value is incorrect"), Author("Marat")]
-        public void FilterTest_08_SearchInvalid()
-        {
-
-        }
-
-        [Test, Description("Verify that search textfield returns empty list when search value is incorrect"), Author("Marat")]
-        public void FilterTest_09_SearchInvalid()
-        {
-
-        }
-
-        [Test, Description("Verify that search textfield returns empty list when search value is incorrect"), Author("Marat")]
-        public void FilterTest_10_SearchInvalid()
-        {
-
-        }
+       
 
     }
 }

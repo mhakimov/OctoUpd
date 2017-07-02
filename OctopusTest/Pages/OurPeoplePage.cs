@@ -1,10 +1,7 @@
 ﻿using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using OctopusTest.Methods;
 
 namespace OctopusTest.Pages
 {
@@ -47,25 +44,14 @@ namespace OctopusTest.Pages
 
         public void SetValueForOrdering(string order)
         {
-            SortByDdm.Click();
+            SortByDdm.ClickIt();
             Utilities.driver.FindElement(By.XPath($"//div[@class='dropdown-menu open']/ul/li/a/span[text()='{order}']")).ClickIt();
         }
 
         public IWebElement GetTeamCheckBox(string teamName)
         {
-            return Utilities.driver.FindElement(By.XPath($"//ul[@role='menu']/li/a/span[text()='{teamName}']/following-sibling::span[2]"));
+           return Utilities.driver.FindElement(By.XPath($"//ul[@role='menu']/li/a/span[text()='{teamName}']/following-sibling::span"));    
         }
 
-
-
-        //                                   /html/body/div[3]/div/div/div[1]/div[2]/div[4]/div/div/div/ul/li[10]/a/span[2]
-        // /html/body/div[3]/div/div/div[2]/div[2]/a[1]/div
-        // /html/body/div[3]/div/div/div[2]/div[2]/a[2]/div
-        // /html/body/div[3]/div/div/div[2]/div[2]/a[3]/div
-        // /html/body/div[3]/div/div/div[2]/div[2]/a[156]/div
-
-
-        // /html/body/div[3]/div/div/div[2]/div[2]/p
-        // /html/body/div[3]/div/div/div[2]/div[2]/a[1]/div
     }
 }

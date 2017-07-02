@@ -45,3 +45,17 @@ C:\Users\dakanca1\Documents\Visual Studio 2015\Projects\OctopusTest\Octopus\Octo
 C:\Users\dakanca1\Documents\Visual Studio 2015\Projects\OctopusTest\Octopus\OctopusTest\bin\Debug\nunit.framework.xml
 C:\Users\dakanca1\Documents\Visual Studio 2015\Projects\OctopusTest\Octopus\OctopusTest\bin\Debug\WebDriver.xml
 C:\Users\dakanca1\Documents\Visual Studio 2015\Projects\OctopusTest\Octopus\OctopusTest\bin\Debug\WebDriver.Support.xml
+C:\services\octopus2\OctopusTest\bin\Debug\OctopusTest.exe.config
+C:\services\octopus2\OctopusTest\obj\Debug\OctopusTest.exe
+C:\services\octopus2\OctopusTest\obj\Debug\OctopusTest.pdb
+C:\services\octopus2\OctopusTest\bin\Debug\OctopusTest.exe
+C:\services\octopus2\OctopusTest\bin\Debug\OctopusTest.pdb
+C:\services\octopus2\OctopusTest\bin\Debug\Excel.dll
+C:\services\octopus2\OctopusTest\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\services\octopus2\OctopusTest\bin\Debug\nunit.framework.dll
+C:\services\octopus2\OctopusTest\bin\Debug\WebDriver.dll
+C:\services\octopus2\OctopusTest\bin\Debug\WebDriver.Support.dll
+C:\services\octopus2\OctopusTest\bin\Debug\Excel.pdb
+C:\services\octopus2\OctopusTest\bin\Debug\nunit.framework.xml
+C:\services\octopus2\OctopusTest\bin\Debug\WebDriver.xml
+C:\services\octopus2\OctopusTest\bin\Debug\WebDriver.Support.xml
