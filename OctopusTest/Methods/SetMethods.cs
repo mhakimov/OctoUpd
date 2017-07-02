@@ -41,6 +41,15 @@ namespace OctopusTest
             element.SendKeys(value);
         }
 
+        /// <summary>
+        /// Extended method for clearing the textbox
+        /// </summary>
+        /// <param name="element"></param>
+        public static void ClearUp(this IWebElement element)
+        {
+            element.Clear();
+        }
+
         public static void SwitchWindows()
         {
             GeneralProperties.driver.SwitchTo().Window(GeneralProperties.driver.WindowHandles.Last());
@@ -62,5 +71,14 @@ namespace OctopusTest
             //soft code it
             jse.ExecuteScript($"scroll({horizontal},{vertical});");
         }
+
+
+        public static void ScrollToElement(IWebElement element)
+        {
+            Actions actions = new Actions(GeneralProperties.driver);
+            actions.MoveToElement(element);
+            actions.Perform();
+        }
+ 
     }
 }

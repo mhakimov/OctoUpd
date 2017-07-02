@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OctopusTest
 {
-    enum SelectorType { Id, LinkText, Name, CssName, ClassName, XPath }
+//enum SelectorType { Id, LinkText, Name, CssName, ClassName, XPath }
 
     class GeneralProperties
     {

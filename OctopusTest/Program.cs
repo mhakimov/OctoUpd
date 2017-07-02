@@ -19,10 +19,5 @@ namespace OctopusTest
             
         }
 
-        [Test]
-        public void ExecuteTest()
-        {
-                      
-        }
     }
 }

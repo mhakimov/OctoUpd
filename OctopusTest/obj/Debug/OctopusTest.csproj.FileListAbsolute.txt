@@ -13,3 +13,18 @@ c:\users\dakanca1\documents\visual studio 2015\Projects\OctopusTest\OctopusTest\
 C:\Users\dakanca1\Documents\Visual Studio 2015\Projects\OctopusTest\OctopusTest\bin\Debug\Excel.dll
 C:\Users\dakanca1\Documents\Visual Studio 2015\Projects\OctopusTest\OctopusTest\bin\Debug\ICSharpCode.SharpZipLib.dll
 C:\Users\dakanca1\Documents\Visual Studio 2015\Projects\OctopusTest\OctopusTest\bin\Debug\Excel.pdb
+C:\Users\dakanca1\Desktop\mobil\OctoNew\OctopusTest\bin\Debug\OctopusTest.exe.config
+C:\Users\dakanca1\Desktop\mobil\OctoNew\OctopusTest\obj\Debug\OctopusTest.exe
+C:\Users\dakanca1\Desktop\mobil\OctoNew\OctopusTest\obj\Debug\OctopusTest.pdb
+C:\Users\dakanca1\Desktop\mobil\OctoNew\OctopusTest\bin\Debug\OctopusTest.exe
+C:\Users\dakanca1\Desktop\mobil\OctoNew\OctopusTest\bin\Debug\OctopusTest.pdb
+C:\Users\dakanca1\Desktop\mobil\OctoNew\OctopusTest\bin\Debug\Excel.dll
+C:\Users\dakanca1\Desktop\mobil\OctoNew\OctopusTest\bin\Debug\ICSharpCode.SharpZipLib.dll
+C:\Users\dakanca1\Desktop\mobil\OctoNew\OctopusTest\bin\Debug\nunit.framework.dll
+C:\Users\dakanca1\Desktop\mobil\OctoNew\OctopusTest\bin\Debug\WebDriver.dll
+C:\Users\dakanca1\Desktop\mobil\OctoNew\OctopusTest\bin\Debug\WebDriver.Support.dll
+C:\Users\dakanca1\Desktop\mobil\OctoNew\OctopusTest\bin\Debug\Excel.pdb
+C:\Users\dakanca1\Desktop\mobil\OctoNew\OctopusTest\bin\Debug\nunit.framework.xml
+C:\Users\dakanca1\Desktop\mobil\OctoNew\OctopusTest\bin\Debug\WebDriver.xml
+C:\Users\dakanca1\Desktop\mobil\OctoNew\OctopusTest\bin\Debug\WebDriver.Support.xml
+C:\Users\dakanca1\Desktop\mobil\OctoNew\OctopusTest\obj\Debug\OctopusTest.csprojResolveAssemblyReference.cache
