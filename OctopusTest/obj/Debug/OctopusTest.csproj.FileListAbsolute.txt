@@ -28,3 +28,6 @@ C:\Users\dakanca1\Desktop\mobil\OctoNew\OctopusTest\bin\Debug\nunit.framework.xm
 C:\Users\dakanca1\Desktop\mobil\OctoNew\OctopusTest\bin\Debug\WebDriver.xml
 C:\Users\dakanca1\Desktop\mobil\OctoNew\OctopusTest\bin\Debug\WebDriver.Support.xml
 C:\Users\dakanca1\Desktop\mobil\OctoNew\OctopusTest\obj\Debug\OctopusTest.csprojResolveAssemblyReference.cache
+C:\services\octoTest\OctopusTest\bin\Debug\OctopusTest.exe.config
+C:\services\octoTest\OctopusTest\obj\Debug\OctopusTest.exe
+C:\services\octoTest\OctopusTest\obj\Debug\OctopusTest.pdb
