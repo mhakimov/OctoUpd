@@ -16,8 +16,7 @@ namespace OctopusTest.Methods
        /// </param>
        public static void ClickIt (this IWebElement element)
         {
-            new WebDriverWait(Utilities.driver, TimeSpan.FromMilliseconds(10000)).
-                           Until(ExpectedConditions.ElementToBeClickable(element));
+            ExplicitWait(element, 10000);
             element.Click();
         }
 
@@ -28,19 +27,14 @@ namespace OctopusTest.Methods
         /// <param name="value"></param>
         public static void TypeInText(this IWebElement element, string value)
         {
-            new WebDriverWait(Utilities.driver, TimeSpan.FromMilliseconds(5000)).
-                           Until(ExpectedConditions.ElementToBeClickable(element));
+            ExplicitWait(element, 5000);
             element.SendKeys(value);
         }
 
-       /// <summary>
-       /// Extended method for clearing the textbox
-       /// </summary>
-       //public static void ClearUp(this IWebElement element)
-       //{
-       //    element.Clear();
-       //}
-       public static void SwitchWindows()
+      /// <summary>
+      /// Switches to the latest tab
+      /// </summary>
+       public static void SwitchTabs()
         {
             Thread.Sleep(100);
             Utilities.driver.SwitchTo().Window(Utilities.driver.WindowHandles.Last());
@@ -52,25 +46,20 @@ namespace OctopusTest.Methods
         /// <param name="element"></param>
         public static void MoveIntoElement(this IWebElement element)
         {
-          //  new WebDriverWait(Utilities.driver, TimeSpan.FromMilliseconds(5000)).
-           //                Until(ExpectedConditions.ElementToBeClickable(element));
             Actions builder = new Actions(Utilities.driver);
             builder.MoveToElement(element).Perform();
         }
 
-        //public static void Scroll(int horizontal, int vertical)
-        //{
-        //    IJavaScriptExecutor jse = (IJavaScriptExecutor)Utilities.driver;
-        //    //soft code it
-        //    jse.ExecuteScript($"scroll({horizontal},{vertical});");
-        //}
 
-
-        public static void ScrollToElement(IWebElement element)
+        /// <summary>
+        /// waits for webelement
+        /// </summary>
+        /// <param name="element"></param>
+        /// <param name="miliseconds"></param>
+        public static void ExplicitWait(IWebElement element,int miliseconds)
         {
-            Actions actions = new Actions(Utilities.driver);
-            actions.MoveToElement(element);
-            actions.Perform();
+            new WebDriverWait(Utilities.driver, TimeSpan.FromMilliseconds(miliseconds)).
+                          Until(ExpectedConditions.ElementToBeClickable(element));
         }
  
     }

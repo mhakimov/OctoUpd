@@ -1,8 +1,6 @@
-﻿using System;
-using OctopusTest.Methods;
+﻿using OctopusTest.Methods;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.PageObjects;
-using OpenQA.Selenium.Support.UI;
 
 namespace OctopusTest.Pages
 {
@@ -24,8 +22,6 @@ namespace OctopusTest.Pages
 
         public OurPeoplePage GoToOurPeoplePage()
         {
-            new WebDriverWait(Utilities.driver, TimeSpan.FromMilliseconds(5000)).
-                            Until(ExpectedConditions.ElementToBeClickable(AboutUsDdm));
             AboutUsDdm.MoveIntoElement();
             OurPeopleBtn.ClickIt();
             return new OurPeoplePage();

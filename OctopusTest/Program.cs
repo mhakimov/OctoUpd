@@ -16,8 +16,6 @@ namespace OctopusTest
     {
         static void Main(string[] args)
         {
-            
         }
-
     }
 }

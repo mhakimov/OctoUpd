@@ -49,6 +49,50 @@ namespace OctopusTest.Data
 
                 return data;         
         }
+
+
+        public static List<int> GetIndexValuesFromTable(List<DataCollection> table)
+        {
+            List<int> indexes = new List<int>();
+            foreach (var dataCollection in table)
+            {
+                if (!indexes.Contains(dataCollection.RowNumber))
+                    indexes.Add(dataCollection.RowNumber);
+
+            }
+            return indexes;
+        }
+
+
+        public static int GetRandomIndexFromTable(List<DataCollection> table)
+        {
+            return Utilities.SelectRandomElement(GetIndexValuesFromTable(table));
+        }
+
+
+        public static List<string> GetEmployeeNamesFromIndexes(List<int> indexes, List<DataCollection> table, string columnName)
+        {
+            List<string> employeesNamesInDb = new List<string>();
+            foreach (var index in indexes)
+            {
+                employeesNamesInDb.Add(table.
+                    First(e => e.ColName == columnName && e.RowNumber == index).ColValue);
+            }
+            return employeesNamesInDb;
+        }
+
+
+        public static string GetStringValueThatDoesNotExistInDb(List<DataCollection> dataCollection, string column)
+        {
+            var i = 0;
+            var incorrectName = Utilities.GetRandomString(15);
+            while (dataCollection.Where(c => c.ColName == column).Any(c => c.ColValue == incorrectName) && i < 10)
+            {
+                incorrectName = Utilities.GetRandomString(15);
+                i++;
+            }
+            return incorrectName;
+        }
     }
 }
 
