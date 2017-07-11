@@ -12,13 +12,13 @@ namespace OctopusTest.Pages
             PageFactory.InitElements(Utilities.driver, this);
         }
 
-        [FindsBy(How = How.XPath, Using = "/html/body/div[3]/div/div/div[1]/div[2]/div[1]/div/div/input")]
+        [FindsBy(How = How.XPath, Using = "//input[@placeholder='e.g Simon Rogerson']")]
         public IWebElement SearchTxf { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "/html/body/div[3]/div/div/div[2]/div[2]/p")]
+        [FindsBy(How = How.XPath, Using = "//p[text()='No results found']")]
         public IWebElement NoResultsFoundTx { get; set; }
 
-        [FindsBy(How = How.XPath, Using = "/html/body/div[3]/div/div/div[1]/div[2]/div[3]/div/div/button/span[1]")]
+        [FindsBy(How = How.XPath, Using = "//div[3]/div/div/button/span[@class='filter-option pull-left']")]
         public IWebElement SortByDdm { get; set; }
 
         public IWebElement GetPerson(string person)
