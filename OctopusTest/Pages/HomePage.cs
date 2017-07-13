@@ -6,9 +6,14 @@ namespace OctopusTest.Pages
 {
     internal class HomePage
     {
-        public HomePage()
+       private IWebDriver driver;
+        private Actionz _actionz;
+
+        public HomePage(IWebDriver driver)
         {
-            PageFactory.InitElements(Utilities.driver, this);
+            this.driver = driver;
+            PageFactory.InitElements(driver, this);
+            _actionz = new Actionz(driver);
         }
 
         [FindsBy(How = How.XPath, Using = "//span[text()='Adviser information']")]
@@ -19,8 +24,13 @@ namespace OctopusTest.Pages
 
         public AdviserPage GoToAdviserPage()
         {
-            AdviserBtn.ClickIt();
-            return new AdviserPage();
+            _actionz.ClickAt(AdviserBtn);
+            return new AdviserPage(driver);
+        }
+
+        public void ClickCookiesContinueBtn()
+        {
+            _actionz.ClickAt(CookiesContinueBtn);
         }
     }
 }

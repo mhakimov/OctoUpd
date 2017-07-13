@@ -8,7 +8,7 @@ namespace OctopusTest
 
     internal class Utilities
     {
-        public static IWebDriver driver { get; set; }
+      //  public static IWebDriver driver { get; set; }
 
 
         public static string GetRandomString(int length)
@@ -23,6 +23,8 @@ namespace OctopusTest
             var index = new Random().Next(0, enumerable.Count());
             return enumerable.ToList()[index];
         }
+
+
 
 
       

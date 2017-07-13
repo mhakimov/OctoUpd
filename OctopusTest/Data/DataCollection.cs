@@ -2,7 +2,7 @@
 
 namespace OctopusTest.Data
 {
-    class DataCollection
+    public class DataCollection
     {
         public int RowNumber { get; set; }
         public string ColName { get; set; }

@@ -7,16 +7,20 @@ using System.Collections.Generic;
 using System.Linq;
 using OctopusTest.Methods;
 using System.Text.RegularExpressions;
+using OpenQA.Selenium;
+using System.Threading;
+using OctopusTest.Tests;
 
 namespace OctopusTest
 {
-    class OurPeopleFiltersTest
+    class OurPeopleFiltersTest : BaseTest
     {
         private string _tableLocation, _nameColumn, _teamColumn;
         private string _businessDevelopmentTeam, _corporateDevelopmentTeam, _institutionalFundsTeam;
         private string _za;
         private OurPeoplePage _ourPeoplePage;
         private List<DataCollection> _employeesDataCollection;
+
 
         [OneTimeSetUp]
         public void FixtureSetup()
@@ -38,25 +42,14 @@ namespace OctopusTest
         [SetUp]
         public void Start()
         {
-            Utilities.driver = new ChromeDriver();
-            Utilities.driver.Navigate().GoToUrl("https://www.octopusinvestments.com/");
-            Utilities.driver.Manage().Window.Maximize();
-
-            HomePage homePage = new HomePage();
-            homePage.CookiesContinueBtn.ClickIt();
+            HomePage homePage = new HomePage(driver);
+            homePage.ClickCookiesContinueBtn();
             AdviserPage adviserPage = homePage.GoToAdviserPage();
-            SeleniumMethods.SwitchTabs();
+            SwitchTabs();
 
-             Utilities.driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
-            adviserPage.ContinueBtn.ClickIt();
+            adviserPage.ClickContinueBtn();
 
             _ourPeoplePage = adviserPage.GoToOurPeoplePage();
-        }
-
-        [TearDown]
-        public void Close()
-        {
-            Utilities.driver.Quit();
         }
 
 
@@ -66,7 +59,7 @@ namespace OctopusTest
         public void FilterTest_01_SearchValid()
         {
             var personName = TestData.ReadData(TestData.GetRandomIndexFromTable(_employeesDataCollection), _nameColumn, _employeesDataCollection);
-            _ourPeoplePage.SearchTxf.TypeInText(personName);
+            _ourPeoplePage.TypeTextInSearchTxf(personName);
             Assert.That(_ourPeoplePage.GetPerson(personName).Displayed, $"ERROR! web element {personName} is not displayed!");
         }
 
@@ -77,7 +70,7 @@ namespace OctopusTest
         public void FilterTest_02_SearchInvalid()
         {
             var incorrectName = TestData.GetStringValueThatDoesNotExistInDb(_employeesDataCollection, _nameColumn);
-            _ourPeoplePage.SearchTxf.TypeInText(incorrectName);
+            _ourPeoplePage.TypeTextInSearchTxf(incorrectName);
             Assert.That(_ourPeoplePage.NoResultsFoundTx.Displayed, $"ERROR! web element {incorrectName} is displayed!");
         }
 
@@ -86,13 +79,12 @@ namespace OctopusTest
         [Description("Verify that when ticking a team and searching for an employee who is not in that team, his/her name will not be returned.")]
         [Author("Marat")]
         public void FilterTest_03_TeamFiltering()
-        {     
-            _ourPeoplePage.GetTeamCheckBox(_corporateDevelopmentTeam).ClickIt();
-            var indexOfEmployeeFromDifferentTeam = _employeesDataCollection.First(e => e.ColName == _teamColumn && e.ColValue != _corporateDevelopmentTeam).RowNumber;
-            var nameOfEmployeeFromDifferentTeam = _employeesDataCollection.
-                First(e => e.ColName == _nameColumn && e.RowNumber == indexOfEmployeeFromDifferentTeam).ColValue;
+        {
+            _ourPeoplePage.ClickCheckbox(_corporateDevelopmentTeam);
+            var nameOfEmployeeFromDifferentTeam = TestData.GetNameOfEmployeeNotFromThisTeam(_employeesDataCollection,
+                _corporateDevelopmentTeam);
+            _ourPeoplePage.TypeTextInSearchTxf(nameOfEmployeeFromDifferentTeam);
 
-            _ourPeoplePage.SearchTxf.TypeInText(nameOfEmployeeFromDifferentTeam);
             Assert.That(_ourPeoplePage.NoResultsFoundTx.Displayed, $"ERROR! web element for {nameOfEmployeeFromDifferentTeam} is displayed!");
         }
 
@@ -102,9 +94,9 @@ namespace OctopusTest
         [Author("Marat")]
         public void FilterTest_04_TeamFilterZaSort()
         {
-            _ourPeoplePage.GetTeamCheckBox(_businessDevelopmentTeam).ClickIt();
+            _ourPeoplePage.ClickCheckbox(_businessDevelopmentTeam);               
             _ourPeoplePage.SetValueForOrdering(_za);
-            List<string> employeesNames = _ourPeoplePage.GetListOfDisplayedEmpoyeeNames();
+            var employeesNames = _ourPeoplePage.GetListOfDisplayedEmpoyeeNames();
 
             Assert.That(employeesNames, Is.Ordered.Descending);
         }
@@ -115,21 +107,13 @@ namespace OctopusTest
         [Author("Marat")]
         public void FilterTest_05_EmployeesFromTeam()
         {
-            _ourPeoplePage.GetTeamCheckBox(_corporateDevelopmentTeam).ClickIt();
-            List<string> displayedEmployeesNames = _ourPeoplePage.GetListOfDisplayedEmpoyeeNames();
+            _ourPeoplePage.ClickCheckbox(_corporateDevelopmentTeam);
 
-            List<int> employeeDbIndexes = new List<int>(from em in _employeesDataCollection
-                where (em.ColName == _teamColumn && em.ColValue == _corporateDevelopmentTeam)
-                select em.RowNumber);
+            var displayedEmployeesNames = _ourPeoplePage.GetListOfDisplayedEmpoyeeNames();
+            var employeesNamesInDb = TestData.GetAllTeammatesFromDb(_employeesDataCollection,
+               new string[] { _corporateDevelopmentTeam });
 
-            List<string> employeesNamesInDb = TestData.
-                GetEmployeeNamesFromIndexes(employeeDbIndexes, _employeesDataCollection, _nameColumn);
-
-            foreach (var employeeInDb in employeesNamesInDb)
-            {
-                Assert.That(displayedEmployeesNames.Contains(employeeInDb), $"ERROR! {employeeInDb} is not displayed");
-            }
-
+            AssertThatList1ContainsAllElementsOfList2(displayedEmployeesNames, employeesNamesInDb);
             Assert.That(employeesNamesInDb.Count, Is.EqualTo(displayedEmployeesNames.Count));    
         }
 
@@ -139,29 +123,35 @@ namespace OctopusTest
         [Author("Marat")]
         public void FilterTest_06_MultipleTeams()
         {
-            _ourPeoplePage.GetTeamCheckBox(_institutionalFundsTeam).ClickIt();
-            _ourPeoplePage.GetTeamCheckBox(_corporateDevelopmentTeam).ClickIt();
+            _ourPeoplePage.ClickCheckbox(_institutionalFundsTeam);
+            _ourPeoplePage.ClickCheckbox(_corporateDevelopmentTeam);
 
-            List <string> displayedEmployeesNames = _ourPeoplePage.GetListOfDisplayedEmpoyeeNames();
+            var displayedEmployeesNames = _ourPeoplePage.GetListOfDisplayedEmpoyeeNames();
+            var employeesNamesInDb = TestData.GetAllTeammatesFromDb(_employeesDataCollection,
+               new string[] {_institutionalFundsTeam, _corporateDevelopmentTeam });
 
-            List<int> employeeDbIndexes = new List<int>(from em in _employeesDataCollection
-                                                                where (em.ColName == _teamColumn && (em.ColValue == _institutionalFundsTeam || em.ColValue== _corporateDevelopmentTeam))
-                                                                select em.RowNumber);
-
-            List<string> employeesNamesInDb = TestData.
-                GetEmployeeNamesFromIndexes(employeeDbIndexes, _employeesDataCollection, _nameColumn);
-
-            Regex spaceAtTheEnd = new Regex(" $");
-            foreach (var employeeInDb in employeesNamesInDb)
-            {
-                if (!spaceAtTheEnd.IsMatch(employeeInDb))
-                    Assert.That(displayedEmployeesNames.Contains(employeeInDb), $"ERROR! {employeeInDb} is not displayed");
-                else
-                    Assert.That(displayedEmployeesNames.Contains(spaceAtTheEnd.Replace(employeeInDb, "")), $"ERROR! {employeeInDb} is not displayed");
-            }
-
+            AssertThatList1ContainsAllElementsOfList2(displayedEmployeesNames, employeesNamesInDb);
             Assert.That(employeesNamesInDb.Count, Is.EqualTo(displayedEmployeesNames.Count));
         }
 
+
+        public void SwitchTabs()
+        {
+            Thread.Sleep(100);
+            driver.SwitchTo().Window(driver.WindowHandles.Last());
+        }
+
+
+        public static void AssertThatList1ContainsAllElementsOfList2(List<string> list1, List<string> list2)
+        {
+            Regex spaceAtTheEnd = new Regex(" $");
+            foreach (var element in list2)
+            {
+                if (spaceAtTheEnd.IsMatch(element) && !list1.Contains(element))
+                    Assert.That(list1.Contains(spaceAtTheEnd.Replace(element, "")), $"ERROR! {element} is not displayed");
+                else
+                    Assert.That(list1.Contains(element), $"ERROR! {element} is not displayed");
+            }
+        }
     }
 }

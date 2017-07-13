@@ -16,6 +16,9 @@ namespace OctopusTest
     {
         static void Main(string[] args)
         {
+           //skrinshoti zafejlinih testov
+           // sozdatj base class dlja testov
+           //c# get webdriver from webelement - optional 
         }
     }
 }

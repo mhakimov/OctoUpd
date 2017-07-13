@@ -6,9 +6,14 @@ namespace OctopusTest.Pages
 {
     class AdviserPage
     {
-        public AdviserPage()
+        private IWebDriver driver;
+        private Actionz _actionz;
+
+        public AdviserPage(IWebDriver driver)
         {
-            PageFactory.InitElements(Utilities.driver, this);
+            this.driver = driver;
+            PageFactory.InitElements(driver, this);
+            _actionz = new Actionz(driver);
         }
 
         [FindsBy(How = How.XPath, Using = ".//*[@id=\"myAdviser\"]/div/div/div[2]/a")]
@@ -22,9 +27,19 @@ namespace OctopusTest.Pages
 
         public OurPeoplePage GoToOurPeoplePage()
         {
-            AboutUsDdm.MoveIntoElement();
-            OurPeopleBtn.ClickIt();
-            return new OurPeoplePage();
+            _actionz.MoveIntoElement(AboutUsDdm);
+            _actionz.ClickAt(OurPeopleBtn);
+            return new OurPeoplePage(driver);
+        }
+
+        public void ClickContinueBtn()
+        {
+            _actionz.ClickAt(ContinueBtn);
+        }
+
+        public void ClickWebElement(IWebElement element)
+        {
+            _actionz.ClickAt(element);
         }
     }
 }

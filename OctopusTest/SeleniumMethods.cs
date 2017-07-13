@@ -9,6 +9,11 @@ namespace OctopusTest.Methods
 {
    public static class SeleniumMethods
     {
+        /// <summary>
+        /// Switches to the latest tab
+        /// </summary>
+     
+        /*
        /// <summary>
        /// Extended method for selecting required value from the dropdown menu
        /// </summary>
@@ -19,6 +24,7 @@ namespace OctopusTest.Methods
             ExplicitWait(element, 10000);
             element.Click();
         }
+
 
         /// <summary>
         /// Extended method for typing text
@@ -31,14 +37,7 @@ namespace OctopusTest.Methods
             element.SendKeys(value);
         }
 
-      /// <summary>
-      /// Switches to the latest tab
-      /// </summary>
-       public static void SwitchTabs()
-        {
-            Thread.Sleep(100);
-            Utilities.driver.SwitchTo().Window(Utilities.driver.WindowHandles.Last());
-        }
+     
 
         /// <summary>
         /// Extended method for moving to web element
@@ -61,6 +60,6 @@ namespace OctopusTest.Methods
             new WebDriverWait(Utilities.driver, TimeSpan.FromMilliseconds(miliseconds)).
                           Until(ExpectedConditions.ElementToBeClickable(element));
         }
- 
+ */
     }
 }

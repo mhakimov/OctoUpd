@@ -7,10 +7,16 @@ namespace OctopusTest.Pages
 {
     class OurPeoplePage
     {
-        public OurPeoplePage()
+        private IWebDriver driver;
+        private Actionz _actionz;
+
+        public OurPeoplePage(IWebDriver driver)
         {
-            PageFactory.InitElements(Utilities.driver, this);
+            this.driver = driver;
+            PageFactory.InitElements(driver, this);
+            _actionz = new Actionz(driver);
         }
+
 
         [FindsBy(How = How.XPath, Using = "//input[@placeholder='e.g Simon Rogerson']")]
         public IWebElement SearchTxf { get; set; }
@@ -23,12 +29,12 @@ namespace OctopusTest.Pages
 
         public IWebElement GetPerson(string person)
         {
-            return Utilities.driver.FindElement(By.XPath($"//div[@class='search-container']//h2[text()='{person}']"));
+            return driver.FindElement(By.XPath($"//div[@class='search-container']//h2[text()='{person}']"));
         }
 
         public IReadOnlyList<IWebElement> GetAllEmployees()
         {
-           return Utilities.driver.FindElements(By.XPath("//div[@class='content']/h2"));         
+           return driver.FindElements(By.XPath("//div[@class='content']/h2"));         
         }
 
         public List<string> GetListOfDisplayedEmpoyeeNames()
@@ -43,14 +49,28 @@ namespace OctopusTest.Pages
 
         public void SetValueForOrdering(string order)
         {
-            SortByDdm.ClickIt();
-            Utilities.driver.FindElement(By.XPath($"//div[@class='dropdown-menu open']/ul/li/a/span[text()='{order}']")).ClickIt();
+            _actionz.ClickAt(SortByDdm);
+            _actionz.ClickAt(driver.FindElement(By.XPath($"//div[@class='dropdown-menu open']/ul/li/a/span[text()='{order}']")));
         }
 
         public IWebElement GetTeamCheckBox(string teamName)
         {
-           return Utilities.driver.FindElement(By.XPath($"//ul[@role='menu']/li/a/span[text()='{teamName}']/following-sibling::span"));    
+           return driver.FindElement(By.XPath($"//ul[@role='menu']/li/a/span[text()='{teamName}']/following-sibling::span"));    
         }
 
+        public void TypeText(IWebElement element, string value)
+        {
+            _actionz.TypeInText(element, value);
+        }
+
+        public void TypeTextInSearchTxf(string value)
+        {
+            _actionz.TypeInText(SearchTxf, value);
+        }
+
+        public void ClickCheckbox(string teamName)
+        {
+            _actionz.ClickAt(GetTeamCheckBox(teamName));
+        }
     }
 }

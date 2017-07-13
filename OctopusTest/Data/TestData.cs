@@ -3,6 +3,7 @@ using System.Data;
 using System.IO;
 using System.Linq;
 using Excel;
+using NUnit.Framework;
 
 namespace OctopusTest.Data
 {
@@ -70,13 +71,13 @@ namespace OctopusTest.Data
         }
 
 
-        public static List<string> GetEmployeeNamesFromIndexes(List<int> indexes, List<DataCollection> table, string columnName)
+        public static List<string> GetEmployeeNamesFromIndexes(List<int> indexes, List<DataCollection> table)
         {
             List<string> employeesNamesInDb = new List<string>();
             foreach (var index in indexes)
             {
                 employeesNamesInDb.Add(table.
-                    First(e => e.ColName == columnName && e.RowNumber == index).ColValue);
+                    First(e => e.ColName == "Name" && e.RowNumber == index).ColValue);
             }
             return employeesNamesInDb;
         }
@@ -93,6 +94,34 @@ namespace OctopusTest.Data
             }
             return incorrectName;
         }
+
+
+        public static List<int> GetRowNumbers(List<DataCollection> employeesDataCollection,
+          string[] teamName)
+        {         
+            return new List<int>(from em in employeesDataCollection
+                                 where (em.ColName == "Team" && teamName.Contains(em.ColValue))
+                                 select em.RowNumber); 
+        }
+
+
+        public static List<string> GetAllTeammatesFromDb(List<DataCollection> employeesDataCollection,
+           string[] teamName)
+        {
+            var employeeDbIndexes = GetRowNumbers(employeesDataCollection, teamName);
+            return GetEmployeeNamesFromIndexes(employeeDbIndexes, employeesDataCollection);
+        }
+
+        public static string GetNameOfEmployeeNotFromThisTeam(List<DataCollection> employeesDataCollection,
+            string teamName)
+        {
+            var indexOfEmployeeFromDifferentTeam = employeesDataCollection.First(e => e.ColName == "Team" && e.ColValue != teamName).RowNumber;
+            return employeesDataCollection.
+               First(e => e.ColName == "Name" && e.RowNumber == indexOfEmployeeFromDifferentTeam).ColValue;
+        }
+
+
+
     }
 }
 
