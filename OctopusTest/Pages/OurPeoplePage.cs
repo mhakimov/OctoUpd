@@ -29,7 +29,15 @@ namespace OctopusTest.Pages
 
         public IWebElement GetPerson(string person)
         {
-            return driver.FindElement(By.XPath($"//div[@class='search-container']//h2[text()='{person}']"));
+            try
+            {
+                return driver.FindElement(By.XPath($"//div[@class='search-container']//h2[text()='{person}']"));
+            }
+
+            catch (NoSuchElementException)
+            {
+                return driver.FindElement(By.XPath($"//div[@class='search-container']//h2[text()='{person +" "}']"));
+            }
         }
 
         public IReadOnlyList<IWebElement> GetAllEmployees()

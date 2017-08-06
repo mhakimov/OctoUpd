@@ -69,13 +69,47 @@ namespace OctopusTest.Features
 #line 6
  #line 7
  testRunner.Given("I launch chrome", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 8
- testRunner.And("I load employees table data", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line hidden
+            TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
+                        "Name",
+                        "Team"});
+            table1.AddRow(new string[] {
+                        "Anna Pollins",
+                        "Strategic partnerships team"});
+            table1.AddRow(new string[] {
+                        "Charlotte Fairhurst",
+                        "Strategic partnerships team"});
+            table1.AddRow(new string[] {
+                        "Matt Johnson",
+                        "Strategic partnerships team"});
+            table1.AddRow(new string[] {
+                        "Nick Maidment",
+                        "Strategic partnerships team"});
+            table1.AddRow(new string[] {
+                        "Steve Skelding",
+                        "Strategic partnerships team"});
+            table1.AddRow(new string[] {
+                        "Emily James",
+                        "Sales support team"});
+            table1.AddRow(new string[] {
+                        "Georgina Clark",
+                        "Sales support team"});
+            table1.AddRow(new string[] {
+                        "Harriet Morton-Liddle",
+                        "Sales support team"});
+            table1.AddRow(new string[] {
+                        "Louise Barelli",
+                        "Sales support team"});
+            table1.AddRow(new string[] {
+                        "Oliver Wallin",
+                        "Multi manager team"});
 #line 9
+ testRunner.And("I load employee teams data", ((string)(null)), table1, "And ");
+#line 22
  testRunner.And("I navigate to Octopus home page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 10
+#line 23
  testRunner.And("I maximise browser window", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line 11
+#line 24
  testRunner.And("I navigate to Our People page", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
         }
@@ -87,13 +121,13 @@ namespace OctopusTest.Features
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Search by typing full name", new string[] {
                         "mytag"});
-#line 15
+#line 28
 this.ScenarioSetup(scenarioInfo);
 #line 6
  this.FeatureBackground();
-#line 16
+#line 29
  testRunner.Given("I type a person name in the searchbox", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 17
+#line 30
  testRunner.Then("person with such name appears on the screen", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();
@@ -106,13 +140,13 @@ this.ScenarioSetup(scenarioInfo);
         {
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Search for invalid name", new string[] {
                         "mytag"});
-#line 21
+#line 34
 this.ScenarioSetup(scenarioInfo);
 #line 6
  this.FeatureBackground();
-#line 22
+#line 35
  testRunner.Given("I type a name that does not exist in Employees Table", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Given ");
-#line 23
+#line 36
  testRunner.Then("No Results text is displayed", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             this.ScenarioCleanup();

@@ -11,6 +11,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TechTalk.SpecFlow;
+using TechTalk.SpecFlow.Assist;
 
 namespace OctopusTest.FeatureSteps
 {
@@ -23,6 +24,7 @@ namespace OctopusTest.FeatureSteps
         private OurPeoplePage _ourPeoplePage;
         private string _tableLocation = AppDomain.CurrentDomain.BaseDirectory.Replace("OctopusTest\\bin\\Debug\\", "OctopusEmployees.xlsx");
         private string _randomPersonName, _incorrectName;
+        IEnumerable<EmployeeNames> _names;
 
         //[Given(@"I type a (.*) name in the searchbox")]
         //public void GivenITypeANameInTheSearchbox(string person)
@@ -32,11 +34,11 @@ namespace OctopusTest.FeatureSteps
         //}
 
         [Given(@"I type a person name in the searchbox")]
-        public string GivenITypeAPersonNameInTheSearchbox()
+        public void GivenITypeAPersonNameInTheSearchbox()
         {
-            _randomPersonName = TestData.ReadData(TestData.GetRandomIndexFromTable(_employeesDataCollection), _nameColumn, _employeesDataCollection);
+            // _randomPersonName = TestData.ReadData(TestData.GetRandomIndexFromTable(_employeesDataCollection), _nameColumn, _employeesDataCollection);
+            _randomPersonName = Utilities.SelectRandomElement(_names).Name;
             _ourPeoplePage.TypeTextInSearchTxf(_randomPersonName);
-            return _randomPersonName;
         }
 
 
@@ -52,6 +54,14 @@ namespace OctopusTest.FeatureSteps
         {
             TestData.PopulateInCollection(_tableLocation, _employeesDataCollection);
         }
+
+
+        [Given(@"I load employee teams data")]
+        public void GivenILoadEmployeeTeamsData(Table table)
+        {
+             _names = table.CreateSet<EmployeeNames>();
+        }
+
 
 
         [Given(@"I navigate to Octopus home page")]

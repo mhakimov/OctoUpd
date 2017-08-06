@@ -76,6 +76,7 @@
   <ItemGroup>
     <Compile Include="Actionz.cs" />
     <Compile Include="Data\DataCollection.cs" />
+    <Compile Include="FeatureSteps\EmployeeNames.cs" />
     <Compile Include="FeatureSteps\SearchBoxFeatureSteps.cs" />
     <Compile Include="Features\SearchBox.feature.cs">
       <AutoGen>True</AutoGen>
