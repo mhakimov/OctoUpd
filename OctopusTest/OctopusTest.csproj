@@ -76,8 +76,14 @@
   <ItemGroup>
     <Compile Include="Actionz.cs" />
     <Compile Include="Data\DataCollection.cs" />
+    <Compile Include="FeatureSteps\CheckBoxesFeatureSteps.cs" />
     <Compile Include="FeatureSteps\EmployeeNames.cs" />
     <Compile Include="FeatureSteps\SearchBoxFeatureSteps.cs" />
+    <Compile Include="Features\Checkboxes.feature.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Checkboxes.feature</DependentUpon>
+    </Compile>
     <Compile Include="Features\SearchBox.feature.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -96,6 +102,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+    <None Include="Features\Checkboxes.feature">
+      <Generator>SpecFlowSingleFileGenerator</Generator>
+      <LastGenOutput>Checkboxes.feature.cs</LastGenOutput>
+    </None>
     <None Include="packages.config" />
     <None Include="Features\SearchBox.feature">
       <Generator>SpecFlowSingleFileGenerator</Generator>
